@@ -1,6 +1,8 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
 export const WS_URL = (process.env.NEXT_PUBLIC_WS_URL ?? 'ws://localhost:3000') + '/ws'
 
+export type SystemState = 'home' | 'away' | 'night' | 'vacation'
+
 export interface DeviceSnapshot {
   id: string
   state: 'on' | 'off' | 'unreachable' | 'error' | 'unknown'
@@ -18,7 +20,7 @@ export interface Device {
 }
 
 export interface SystemStateResponse {
-  system: 'home' | 'away' | 'night' | 'vacation'
+  system: SystemState
   rooms: { room: string; state: string }[]
 }
 
