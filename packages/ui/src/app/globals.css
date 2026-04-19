@@ -1,6 +1,9 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --accent: #c2693e;
-  --accent-soft: rgba(194, 105, 62, 0.12);
+@layer base {
+  body {
+    @apply bg-surface-base text-white;
+  }
 }
