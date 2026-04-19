@@ -115,7 +115,7 @@ export class ScenarioEngine {
           night: 'SET_NIGHT',
           vacation: 'SET_VACATION',
         }
-        this.stateManager.sendSystemEvent({ type: eventMap[step.state] ?? 'SET_HOME' })
+        this.stateManager.sendSystemEvent({ type: eventMap[step.state] ?? 'SET_HOME' } as SystemEvent)
         break
       }
 

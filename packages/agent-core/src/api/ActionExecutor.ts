@@ -32,7 +32,7 @@ export class ActionExecutor {
 
       case 'set_system_state': {
         const evType = STATE_EVENT_MAP[action.state]
-        if (evType) this.stateManager.sendSystemEvent({ type: evType })
+        if (evType) this.stateManager.sendSystemEvent({ type: evType } as SystemEvent)
         break
       }
 

@@ -100,7 +100,7 @@ export class MqttClient implements MessageBrokerInterface {
 
   async disconnect(): Promise<void> {
     return new Promise((resolve) => {
-      this.client?.end(false, {}, resolve)
+      this.client?.end(false, {}, () => resolve())
     })
   }
 }
