@@ -37,7 +37,7 @@ export default function Dashboard() {
                   ...d,
                   snapshot: {
                     id: d.id,
-                    state: msg.data.currentState as Device['snapshot']['state'],
+                    state: msg.data.currentState as NonNullable<Device['snapshot']>['state'],
                     payload: msg.data.payload ?? d.snapshot?.payload ?? {},
                     lastSeen: Date.now(),
                   },
