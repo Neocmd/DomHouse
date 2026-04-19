@@ -1,0 +1,58 @@
+- name: all_lights_off
+  description: Spegni tutte le luci
+  mode: parallel
+  steps:
+    - type: mqtt_publish
+      topic: home/living/light/ceiling/set
+      payload: { on: false }
+    - type: mqtt_publish
+      topic: home/living/light/lamp/set
+      payload: { on: false }
+
+- name: movie_night
+  description: Modalità cinema salotto
+  mode: sequential
+  timeoutMs: 10000
+  steps:
+    - type: mqtt_publish
+      topic: home/living/light/ceiling/set
+      payload: { on: false }
+    - type: mqtt_publish
+      topic: home/living/light/lamp/set
+      payload: { on: true, brightness: 15, color_temp: 400 }
+    - type: mqtt_publish
+      topic: home/living/blind/main/set
+      payload: { position: 0 }
+    - type: wait
+      ms: 500
+    - type: mqtt_publish
+      topic: home/living/media/tv/set
+      payload: { on: true }
+  rollback:
+    - type: mqtt_publish
+      topic: home/living/light/ceiling/set
+      payload: { on: true, brightness: 100 }
+
+- name: good_morning
+  description: Sveglia graduale
+  mode: sequential
+  steps:
+    - type: set_system_state
+      state: home
+    - type: mqtt_publish
+      topic: home/living/light/ceiling/set
+      payload: { on: true, brightness: 30, color_temp: 250 }
+    - type: wait
+      ms: 2000
+    - type: mqtt_publish
+      topic: home/living/blind/main/set
+      payload: { position: 50 }
+
+- name: goodnight
+  description: Modalità notte
+  mode: sequential
+  steps:
+    - type: trigger_scenario
+      name: all_lights_off
+    - type: set_system_state
+      state: night

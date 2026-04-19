@@ -1,0 +1,54 @@
+- id: living.light.ceiling
+  name: Luce Soffitto Salotto
+  type: light
+  room: living
+  topic:
+    state: home/living/light/ceiling/state
+    set: home/living/light/ceiling/set
+    config: home/living/light/ceiling/config
+  capabilities: [on_off, brightness, color_temp]
+
+- id: living.light.lamp
+  name: Lampada Angolo Salotto
+  type: light
+  room: living
+  topic:
+    state: home/living/light/lamp/state
+    set: home/living/light/lamp/set
+  capabilities: [on_off, brightness]
+
+- id: living.sensor.motion
+  name: Sensore Movimento Salotto
+  type: presence
+  room: living
+  topic:
+    state: home/living/sensor/motion/state
+    set: home/living/sensor/motion/set
+  capabilities: [motion, lux]
+
+- id: living.sensor.temp
+  name: Sensore Temp/Umidità Salotto
+  type: sensor
+  room: living
+  topic:
+    state: home/living/sensor/temp/state
+    set: home/living/sensor/temp/set
+  capabilities: [temperature, humidity]
+
+- id: living.blind.main
+  name: Tapparella Salotto
+  type: blind
+  room: living
+  topic:
+    state: home/living/blind/main/state
+    set: home/living/blind/main/set
+  capabilities: [position]
+
+- id: living.media.tv
+  name: TV Salotto
+  type: media
+  room: living
+  topic:
+    state: home/living/media/tv/state
+    set: home/living/media/tv/set
+  capabilities: [on_off, volume, input]

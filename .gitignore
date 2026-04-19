@@ -1,0 +1,7 @@
+node_modules/
+.env
+dist/
+.next/
+*.log
+infra/mosquitto/data/
+infra/mosquitto/log/

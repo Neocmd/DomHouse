@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+:root {
+  --accent: #c2693e;
+  --accent-soft: rgba(194, 105, 62, 0.12);
+}

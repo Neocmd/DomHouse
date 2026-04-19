@@ -1,0 +1,95 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: domhouse-mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./infra/mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./infra/mosquitto/data:/mosquitto/data
+      - ./infra/mosquitto/log:/mosquitto/log
+    networks:
+      - domhouse
+
+  redis:
+    image: redis:7-alpine
+    container_name: domhouse-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis-data:/data
+    networks:
+      - domhouse
+
+  influxdb:
+    image: influxdb:2.7-alpine
+    container_name: domhouse-influxdb
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: domhouse
+      DOCKER_INFLUXDB_INIT_PASSWORD: domhouse_secret
+      DOCKER_INFLUXDB_INIT_ORG: domhouse
+      DOCKER_INFLUXDB_INIT_BUCKET: sensors
+      DOCKER_INFLUXDB_INIT_RETENTION: 90d
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: domhouse-influx-token
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+    networks:
+      - domhouse
+
+  agent-core:
+    build:
+      context: ./packages/agent-core
+      dockerfile: Dockerfile
+    container_name: domhouse-agent-core
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      MQTT_URL: mqtt://mosquitto:1883
+      REDIS_URL: redis://redis:6379
+      INFLUXDB_URL: http://influxdb:8086
+      INFLUXDB_TOKEN: domhouse-influx-token
+      INFLUXDB_ORG: domhouse
+      INFLUXDB_BUCKET: sensors
+      API_PORT: 3000
+    volumes:
+      - ./config:/app/config:ro
+    depends_on:
+      - mosquitto
+      - redis
+      - influxdb
+    networks:
+      - domhouse
+
+  ui:
+    build:
+      context: ./packages/ui
+      dockerfile: Dockerfile
+    container_name: domhouse-ui
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3000
+      NEXT_PUBLIC_WS_URL: ws://localhost:3000
+    depends_on:
+      - agent-core
+    networks:
+      - domhouse
+
+volumes:
+  redis-data:
+  influxdb-data:
+
+networks:
+  domhouse:
+    driver: bridge

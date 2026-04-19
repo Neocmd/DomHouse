@@ -1,0 +1,49 @@
+- id: auto_lights_motion
+  name: Luci automatiche con movimento
+  trigger:
+    type: mqtt
+    topic: home/living/sensor/motion/state
+    payloadMatch:
+      motion: true
+  conditions:
+    - type: system_state
+      operator: "!="
+      value: away
+    - type: time_range
+      from: "20:00"
+      to: "23:59"
+  actions:
+    - type: mqtt_publish
+      topic: home/living/light/ceiling/set
+      payload:
+        on: true
+        brightness: 80
+
+- id: away_lights_off
+  name: Spegni luci quando si esce
+  trigger:
+    type: state_change
+    entity: system
+    id: system
+    to: away
+  actions:
+    - type: trigger_scenario
+      name: all_lights_off
+
+- id: temp_alert
+  name: Alert temperatura alta
+  trigger:
+    type: threshold
+    deviceId: living.sensor.temp
+    field: temperature
+    operator: ">"
+    value: 28
+    forSeconds: 300
+  conditions:
+    - type: system_state
+      operator: "=="
+      value: home
+  actions:
+    - type: log
+      message: "Temperatura alta in salotto!"
+      level: warn

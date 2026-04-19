@@ -1,0 +1,73 @@
+# ESPHome template — Smart Light (ESP8266/ESP32)
+# Variables: ROOM, DEVICE_ID, MQTT_BROKER, WIFI_SSID, WIFI_PASS
+
+substitutions:
+  room: living
+  device_id: ceiling
+  device_name: "living-ceiling"
+
+esphome:
+  name: ${device_name}
+
+esp8266:
+  board: d1_mini
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: "${device_name} Fallback"
+    password: "domhouse123"
+
+mqtt:
+  broker: !secret mqtt_broker
+  port: 1883
+  topic_prefix: home/${room}/light/${device_id}
+  birth_message:
+    topic: home/${room}/light/${device_id}/state
+    payload: '{"online": true}'
+  will_message:
+    topic: home/${room}/light/${device_id}/state
+    payload: '{"online": false}'
+
+# Auto-discovery
+  on_connect:
+    then:
+      - mqtt.publish:
+          topic: home/${room}/light/${device_id}/config
+          payload: !lambda |-
+            return "{\"name\":\"" + App.get_name() + "\",\"capabilities\":[\"on_off\",\"brightness\",\"color_temp\"]}";
+
+light:
+  - platform: monochromatic
+    name: "${device_name}"
+    output: pwm_output
+    id: main_light
+    on_state:
+      then:
+        - mqtt.publish:
+            topic: home/${room}/light/${device_id}/state
+            payload: !lambda |-
+              auto c = id(main_light).current_values;
+              char buf[128];
+              snprintf(buf, sizeof(buf),
+                "{\"on\":%s,\"brightness\":%d}",
+                c.is_on() ? "true" : "false",
+                (int)(c.get_brightness() * 100)
+              );
+              return std::string(buf);
+
+output:
+  - platform: esp8266_pwm
+    id: pwm_output
+    pin: D1
+
+# Subscribe to set topic
+mqtt:
+  on_message:
+    topic: home/${room}/light/${device_id}/set
+    then:
+      - lambda: |-
+          auto root = x;
+          // Parse on/brightness from JSON payload
+          // ESPHome handles this natively via light.turn_on
