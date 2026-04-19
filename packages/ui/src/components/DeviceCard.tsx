@@ -69,17 +69,17 @@ export function DeviceCard({ device, onUpdate }: Props) {
 
 function PayloadBadge({ payload, type }: { payload: Record<string, unknown>; type: string }) {
   if (type === 'sensor' || type === 'presence') {
-    const temp = payload['temperature']
-    const hum = payload['humidity']
+    const temp = typeof payload['temperature'] === 'number' ? payload['temperature'] : undefined
+    const hum = typeof payload['humidity'] === 'number' ? payload['humidity'] : undefined
     const motion = payload['motion']
 
     return (
       <div className="mt-2 flex flex-wrap gap-1">
         {temp !== undefined && (
-          <span className="text-xs bg-blue-50 text-blue-600 rounded-md px-1.5 py-0.5">{temp}°C</span>
+          <span className="text-xs bg-blue-50 text-blue-600 rounded-md px-1.5 py-0.5">{temp.toFixed(1)}°C</span>
         )}
         {hum !== undefined && (
-          <span className="text-xs bg-cyan-50 text-cyan-600 rounded-md px-1.5 py-0.5">{hum}%</span>
+          <span className="text-xs bg-cyan-50 text-cyan-600 rounded-md px-1.5 py-0.5">{hum.toFixed(0)}%</span>
         )}
         {motion !== undefined && (
           <span className={cn('text-xs rounded-md px-1.5 py-0.5', motion ? 'bg-amber-50 text-amber-600' : 'bg-stone-50 text-stone-400')}>
@@ -91,7 +91,7 @@ function PayloadBadge({ payload, type }: { payload: Record<string, unknown>; typ
   }
 
   if (type === 'light') {
-    const bri = payload['brightness']
+    const bri = typeof payload['brightness'] === 'number' ? payload['brightness'] : undefined
     if (bri !== undefined) {
       return (
         <div className="mt-2">
