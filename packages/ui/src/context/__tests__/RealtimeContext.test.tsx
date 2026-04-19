@@ -24,6 +24,8 @@ function Consumer() {
       <span data-testid="state">{systemState}</span>
       <span data-testid="count">{devices.length}</span>
       <span data-testid="connected">{String(connected)}</span>
+      <span data-testid="device-state">{devices[0]?.snapshot?.state ?? 'none'}</span>
+      <span data-testid="device-payload">{JSON.stringify(devices[0]?.snapshot?.payload ?? {})}</span>
     </div>
   )
 }
@@ -70,7 +72,7 @@ describe('RealtimeContext', () => {
     act(() => {
       mockHandler({ type: 'snapshot', data: { systemState: 'home', devices: [device] } })
     })
-    expect(screen.getByTestId('count')).toHaveTextContent('1')
+    expect(screen.getByTestId('device-state')).toHaveTextContent('off')
 
     act(() => {
       mockHandler({
@@ -78,6 +80,8 @@ describe('RealtimeContext', () => {
         data: { type: 'light', id: 'd1', previousState: 'off', currentState: 'on', payload: { brightness: 80 } },
       })
     })
+    expect(screen.getByTestId('device-state')).toHaveTextContent('on')
+    expect(screen.getByTestId('device-payload')).toHaveTextContent('{"brightness":80}')
     expect(screen.getByTestId('count')).toHaveTextContent('1')
   })
 })

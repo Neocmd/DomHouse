@@ -24,8 +24,8 @@ export function RealtimeProvider({ children }: { children: React.ReactNode }) {
   const [connected, setConnected] = useState(false)
 
   useEffect(() => {
-    fetchDevices().then(setDevices).catch(() => {})
-    fetchState().then((s) => setSystemState(s.system)).catch(() => {})
+    fetchDevices().then(setDevices).catch((err) => console.error('[RealtimeContext] fetchDevices failed:', err))
+    fetchState().then((s) => setSystemState(s.system)).catch((err) => console.error('[RealtimeContext] fetchState failed:', err))
   }, [])
 
   const handleMessage = useCallback((msg: WsMessage) => {
