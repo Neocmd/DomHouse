@@ -35,7 +35,7 @@ export function buildServer(
 
   // ── WebSocket endpoint ───────────────────────────────────
 
-  app.get('/ws', { websocket: true }, (socket) => {
+  app.get('/ws', { websocket: true }, (socket: WebSocket) => {
     wsClients.add(socket)
 
     // Send current snapshot on connect
