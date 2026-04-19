@@ -1,0 +1,111 @@
+<h2>Color Theme</h2>
+<p class="subtitle">Which atmosphere feels right for your home dashboard?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:12px;background:#111;min-height:200px;border-radius:8px 8px 0 0">
+      <div style="display:flex;height:176px;border-radius:6px;overflow:hidden">
+        <div style="width:44px;background:#1c1c1e;display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:18px">
+          <div style="width:26px;height:26px;background:#f97316;border-radius:7px;font-size:12px;display:flex;align-items:center;justify-content:center">🏠</div>
+          <div style="font-size:14px;opacity:0.5">🛋</div>
+          <div style="font-size:14px;opacity:0.5">🎬</div>
+          <div style="font-size:14px;opacity:0.5">⚙️</div>
+        </div>
+        <div style="flex:1;background:#1c1c1e;padding:10px;border-left:1px solid #2a2a2e">
+          <div style="font-size:10px;color:#aaa;margin-bottom:6px">Dashboard</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:6px">
+            <div style="background:#2a2a2e;border-radius:8px;padding:7px">
+              <div style="font-size:8px;color:#666">Sistema</div>
+              <div style="font-size:10px;color:#fff;font-weight:600">Casa 🏠</div>
+            </div>
+            <div style="background:#2a2a2e;border-radius:8px;padding:7px">
+              <div style="font-size:8px;color:#666">Luci</div>
+              <div style="font-size:10px;color:#f97316;font-weight:600">5 ON</div>
+            </div>
+          </div>
+          <div style="font-size:8px;color:#666;margin-bottom:4px">STANZE</div>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <div style="background:#2a2a2e;border-radius:6px;padding:5px 7px;font-size:9px;color:#ddd;display:flex;justify-content:space-between"><span>Soggiorno</span><span style="color:#f97316">●●●</span></div>
+            <div style="background:#2a2a2e;border-radius:6px;padding:5px 7px;font-size:9px;color:#666;display:flex;justify-content:space-between"><span>Cucina</span><span>○○</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Full Dark</h3>
+      <p>Deep dark tones, orange accent. Easy on the eyes at night. High contrast on device status. Popular in smart home UIs.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:12px;background:#f5f5f5;min-height:200px;border-radius:8px 8px 0 0">
+      <div style="display:flex;height:176px;border-radius:6px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.1)">
+        <div style="width:44px;background:#fff;display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:18px;border-right:1px solid #e8e8e8">
+          <div style="width:26px;height:26px;background:#111;border-radius:7px;font-size:12px;display:flex;align-items:center;justify-content:center">🏠</div>
+          <div style="font-size:14px;opacity:0.3">🛋</div>
+          <div style="font-size:14px;opacity:0.3">🎬</div>
+          <div style="font-size:14px;opacity:0.3">⚙️</div>
+        </div>
+        <div style="flex:1;background:#fff;padding:10px">
+          <div style="font-size:10px;color:#888;margin-bottom:6px">Dashboard</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:6px">
+            <div style="background:#f5f5f5;border-radius:8px;padding:7px;border:1px solid #ebebeb">
+              <div style="font-size:8px;color:#aaa">Sistema</div>
+              <div style="font-size:10px;color:#111;font-weight:600">Casa 🏠</div>
+            </div>
+            <div style="background:#f5f5f5;border-radius:8px;padding:7px;border:1px solid #ebebeb">
+              <div style="font-size:8px;color:#aaa">Luci</div>
+              <div style="font-size:10px;color:#111;font-weight:600">5 ON</div>
+            </div>
+          </div>
+          <div style="font-size:8px;color:#bbb;margin-bottom:4px">STANZE</div>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <div style="background:#f5f5f5;border-radius:6px;padding:5px 7px;font-size:9px;color:#333;display:flex;justify-content:space-between;border:1px solid #ebebeb"><span>Soggiorno</span><span style="color:#111;font-weight:600">3 accese</span></div>
+            <div style="background:#f5f5f5;border-radius:6px;padding:5px 7px;font-size:9px;color:#bbb;display:flex;justify-content:space-between;border:1px solid #ebebeb"><span>Cucina</span><span>off</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Pure Light</h3>
+      <p>White background, black accent, minimal borders. Clean Apple Home feel. Best in bright rooms. Can feel harsh at night.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:12px;background:#f0f0f0;min-height:200px;border-radius:8px 8px 0 0">
+      <div style="display:flex;height:176px;border-radius:6px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.12)">
+        <div style="width:44px;background:#18181b;display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:18px">
+          <div style="width:26px;height:26px;background:#f97316;border-radius:7px;font-size:12px;display:flex;align-items:center;justify-content:center">🏠</div>
+          <div style="font-size:14px;opacity:0.4">🛋</div>
+          <div style="font-size:14px;opacity:0.4">🎬</div>
+          <div style="font-size:14px;opacity:0.4">⚙️</div>
+        </div>
+        <div style="flex:1;background:#fff;padding:10px">
+          <div style="font-size:10px;color:#888;margin-bottom:6px">Dashboard</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:6px">
+            <div style="background:#fafafa;border-radius:8px;padding:7px;border:1px solid #eee">
+              <div style="font-size:8px;color:#aaa">Sistema</div>
+              <div style="font-size:10px;color:#111;font-weight:600">Casa 🏠</div>
+            </div>
+            <div style="background:#fafafa;border-radius:8px;padding:7px;border:1px solid #eee">
+              <div style="font-size:8px;color:#aaa">Luci</div>
+              <div style="font-size:10px;color:#f97316;font-weight:600">5 ON</div>
+            </div>
+          </div>
+          <div style="font-size:8px;color:#bbb;margin-bottom:4px">STANZE</div>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <div style="background:#fafafa;border-radius:6px;padding:5px 7px;font-size:9px;color:#333;display:flex;justify-content:space-between;border:1px solid #eee"><span>Soggiorno</span><span style="color:#f97316;font-weight:600">●●●</span></div>
+            <div style="background:#fafafa;border-radius:6px;padding:5px 7px;font-size:9px;color:#bbb;display:flex;justify-content:space-between;border:1px solid #eee"><span>Cucina</span><span>off</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Dark Sidebar + Light Content</h3>
+      <p>Dark nav rail, white content area, orange accent. Strong visual anchor. Works well day and night. Best of both.</p>
+    </div>
+  </div>
+
+</div>

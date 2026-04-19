@@ -1,0 +1,125 @@
+<h2>Navigation Structure</h2>
+<p class="subtitle">Which layout works best for controlling your home? Works on both phone and desktop.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f8f8;padding:16px;min-height:220px">
+      <div style="background:#1a1a1a;color:#fff;padding:8px 12px;border-radius:8px 8px 0 0;font-size:11px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-weight:700">DomHouse</span>
+        <div style="display:flex;gap:6px">
+          <span style="background:#333;border-radius:20px;padding:2px 8px;font-size:10px">Casa</span>
+          <span style="background:#555;border-radius:20px;padding:2px 8px;font-size:10px">Fuori</span>
+          <span style="background:#555;border-radius:20px;padding:2px 8px;font-size:10px">Notte</span>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #e5e5e5;border-top:none;border-radius:0 0 8px 8px;padding:10px">
+        <div style="font-size:10px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">Scenari</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px">
+          <span style="background:#f0f0f0;border-radius:20px;padding:3px 8px;font-size:10px">🎬 Movie Night</span>
+          <span style="background:#f0f0f0;border-radius:20px;padding:3px 8px;font-size:10px">🌅 Buongiorno</span>
+          <span style="background:#f0f0f0;border-radius:20px;padding:3px 8px;font-size:10px">🌙 Buonanotte</span>
+        </div>
+        <div style="font-size:10px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">Soggiorno</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:8px">
+          <div style="background:#f5f5f5;border-radius:6px;padding:6px;text-align:center;font-size:9px">💡 Soffitto</div>
+          <div style="background:#222;border-radius:6px;padding:6px;text-align:center;font-size:9px;color:#fff">💡 Lampada</div>
+          <div style="background:#f5f5f5;border-radius:6px;padding:6px;text-align:center;font-size:9px">📺 TV</div>
+          <div style="background:#f5f5f5;border-radius:6px;padding:6px;text-align:center;font-size:9px">🌡 22°</div>
+        </div>
+        <div style="font-size:10px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">Cucina</div>
+        <div style="background:#eee;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#999">…altro…</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Single Page</h3>
+      <p>Everything on one scrollable page. Sections for scenarios, then rooms. No navigation needed. Fast to scan, long on many rooms.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f8f8;padding:16px;min-height:220px">
+      <div style="display:flex;background:#fff;border:1px solid #e5e5e5;border-radius:8px;overflow:hidden;height:200px">
+        <div style="width:52px;background:#1a1a1a;display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:16px">
+          <div style="width:28px;height:28px;background:#e67e22;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px">🏠</div>
+          <div style="font-size:16px">🛋</div>
+          <div style="font-size:16px">🎬</div>
+          <div style="font-size:16px">⚙️</div>
+        </div>
+        <div style="flex:1;padding:10px">
+          <div style="font-size:11px;font-weight:700;margin-bottom:8px">Dashboard</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
+            <div style="background:#f5f5f5;border-radius:8px;padding:8px">
+              <div style="font-size:9px;color:#888">Sistema</div>
+              <div style="font-size:11px;font-weight:600">Casa 🏠</div>
+            </div>
+            <div style="background:#f5f5f5;border-radius:8px;padding:8px">
+              <div style="font-size:9px;color:#888">Attivi</div>
+              <div style="font-size:11px;font-weight:600">5 luci</div>
+            </div>
+          </div>
+          <div style="font-size:10px;color:#888;margin-bottom:4px">Stanze</div>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <div style="background:#f5f5f5;border-radius:6px;padding:5px 8px;font-size:10px;display:flex;justify-content:space-between"><span>Soggiorno</span><span style="color:#e67e22">3 accese</span></div>
+            <div style="background:#f5f5f5;border-radius:6px;padding:5px 8px;font-size:10px;display:flex;justify-content:space-between"><span>Cucina</span><span style="color:#888">tutto off</span></div>
+            <div style="background:#f5f5f5;border-radius:6px;padding:5px 8px;font-size:10px;display:flex;justify-content:space-between"><span>Camera</span><span style="color:#e67e22">1 accesa</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Sidebar + Sections</h3>
+      <p>Vertical icon sidebar (desktop). Separate sections: Dashboard overview, Rooms, Scenarios, Settings. More structured, slightly more clicks.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f8f8;padding:16px;min-height:220px">
+      <div style="background:#fff;border:1px solid #e5e5e5;border-radius:8px;overflow:hidden;height:200px;position:relative">
+        <div style="background:#1a1a1a;color:#fff;padding:8px 12px;font-size:11px;display:flex;justify-content:space-between">
+          <span style="font-weight:700">Soggiorno</span>
+          <span style="font-size:10px;color:#888">1/4 stanze</span>
+        </div>
+        <div style="padding:10px;height:calc(100% - 30px - 36px);overflow:hidden">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <div style="background:#222;border-radius:8px;padding:10px;color:#fff">
+              <div style="font-size:18px;margin-bottom:2px">💡</div>
+              <div style="font-size:10px;font-weight:600">Soffitto</div>
+              <div style="font-size:9px;color:#aaa">ON</div>
+            </div>
+            <div style="background:#f5f5f5;border-radius:8px;padding:10px">
+              <div style="font-size:18px;margin-bottom:2px">💡</div>
+              <div style="font-size:10px;font-weight:600">Lampada</div>
+              <div style="font-size:9px;color:#aaa">OFF</div>
+            </div>
+            <div style="background:#f5f5f5;border-radius:8px;padding:10px">
+              <div style="font-size:18px;margin-bottom:2px">📺</div>
+              <div style="font-size:10px;font-weight:600">TV</div>
+              <div style="font-size:9px;color:#aaa">OFF</div>
+            </div>
+            <div style="background:#fff7ed;border-radius:8px;padding:10px;border:1px solid #fed7aa">
+              <div style="font-size:18px;margin-bottom:2px">🌡</div>
+              <div style="font-size:10px;font-weight:600">Temp</div>
+              <div style="font-size:9px;color:#e67e22">22°C</div>
+            </div>
+          </div>
+        </div>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e5e5e5;display:flex;justify-content:space-around;padding:6px 0">
+          <div style="font-size:16px;opacity:0.4">←</div>
+          <div style="display:flex;gap:4px">
+            <div style="width:6px;height:6px;border-radius:50%;background:#1a1a1a"></div>
+            <div style="width:6px;height:6px;border-radius:50%;background:#ddd"></div>
+            <div style="width:6px;height:6px;border-radius:50%;background:#ddd"></div>
+            <div style="width:6px;height:6px;border-radius:50%;background:#ddd"></div>
+          </div>
+          <div style="font-size:16px;opacity:0.4">→</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Room-First Cards</h3>
+      <p>One room fills the screen. Swipe/click to move between rooms. Focused, immersive on mobile. Less overview, harder to compare rooms.</p>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,134 @@
+<h2>Dashboard Home Screen</h2>
+<p class="subtitle">When you first open the app, what do you see?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#1c1c1e;padding:12px;min-height:220px;border-radius:8px 8px 0 0">
+      <div style="font-size:9px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Dashboard</div>
+      <!-- Status bar -->
+      <div style="background:#2a2a2e;border-radius:10px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:8px;color:#666">Sistema</div>
+          <div style="font-size:13px;color:#fff;font-weight:700">Casa 🏠</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:8px;color:#666">Dispositivi attivi</div>
+          <div style="font-size:13px;color:#f97316;font-weight:700">8 / 14</div>
+        </div>
+      </div>
+      <!-- Scenarios -->
+      <div style="font-size:8px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Scenari rapidi</div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px">
+        <span style="background:#2a2a2e;border-radius:20px;padding:4px 9px;font-size:9px;color:#ddd">🎬 Movie</span>
+        <span style="background:#2a2a2e;border-radius:20px;padding:4px 9px;font-size:9px;color:#ddd">🌅 Buongiorno</span>
+        <span style="background:#2a2a2e;border-radius:20px;padding:4px 9px;font-size:9px;color:#ddd">🌙 Notte</span>
+      </div>
+      <!-- Room summary -->
+      <div style="font-size:8px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Stanze</div>
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <div style="background:#2a2a2e;border-radius:7px;padding:6px 10px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:9px;color:#ddd">🛋 Soggiorno</span>
+          <span style="font-size:8px;color:#f97316">3 ON</span>
+        </div>
+        <div style="background:#1a1a1a;border-radius:7px;padding:6px 10px;display:flex;justify-content:space-between;align-items:center;opacity:0.5">
+          <span style="font-size:9px;color:#aaa">🍳 Cucina</span>
+          <span style="font-size:8px;color:#555">off</span>
+        </div>
+        <div style="background:#2a2a2e;border-radius:7px;padding:6px 10px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:9px;color:#ddd">🛏 Camera</span>
+          <span style="font-size:8px;color:#f97316">1 ON</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Overview Hub</h3>
+      <p>System state + active count, quick scenario buttons, room summary list. Click a room row → go to that room. Full picture at a glance.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#1c1c1e;padding:12px;min-height:220px;border-radius:8px 8px 0 0">
+      <div style="font-size:9px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Dashboard</div>
+      <!-- State pills top -->
+      <div style="display:flex;gap:4px;margin-bottom:10px">
+        <span style="background:#f97316;border-radius:20px;padding:3px 10px;font-size:9px;color:#fff;font-weight:600">🏠 Casa</span>
+        <span style="background:#2a2a2e;border-radius:20px;padding:3px 10px;font-size:9px;color:#555">✈️ Fuori</span>
+        <span style="background:#2a2a2e;border-radius:20px;padding:3px 10px;font-size:9px;color:#555">🌙 Notte</span>
+        <span style="background:#2a2a2e;border-radius:20px;padding:3px 10px;font-size:9px;color:#555">🏖 Vacanza</span>
+      </div>
+      <!-- Room grid -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <div style="background:#2a2a2e;border-radius:10px;padding:10px;cursor:pointer">
+          <div style="font-size:18px;margin-bottom:4px">🛋</div>
+          <div style="font-size:10px;color:#fff;font-weight:600">Soggiorno</div>
+          <div style="font-size:8px;color:#f97316;margin-top:2px">3 accese · 22°C</div>
+        </div>
+        <div style="background:#1a1a1a;border-radius:10px;padding:10px;opacity:0.45;cursor:pointer">
+          <div style="font-size:18px;margin-bottom:4px">🍳</div>
+          <div style="font-size:10px;color:#aaa;font-weight:600">Cucina</div>
+          <div style="font-size:8px;color:#555;margin-top:2px">tutto off</div>
+        </div>
+        <div style="background:#2a2a2e;border-radius:10px;padding:10px;cursor:pointer">
+          <div style="font-size:18px;margin-bottom:4px">🛏</div>
+          <div style="font-size:10px;color:#fff;font-weight:600">Camera</div>
+          <div style="font-size:8px;color:#f97316;margin-top:2px">1 accesa · 20°C</div>
+        </div>
+        <div style="background:#1a1a1a;border-radius:10px;padding:10px;opacity:0.45;cursor:pointer">
+          <div style="font-size:18px;margin-bottom:4px">🚿</div>
+          <div style="font-size:10px;color:#aaa;font-weight:600">Bagno</div>
+          <div style="font-size:8px;color:#555;margin-top:2px">tutto off</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Room Grid</h3>
+      <p>System state pills top, then big room cards. Each shows icon + name + active summary. Click → room detail. Clean, direct, minimal chrome.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#1c1c1e;padding:12px;min-height:220px;border-radius:8px 8px 0 0">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="font-size:9px;color:#555;text-transform:uppercase;letter-spacing:1px">Dashboard</div>
+        <div style="font-size:8px;color:#f97316;background:#2a1a0a;padding:2px 7px;border-radius:10px">🏠 Casa</div>
+      </div>
+      <!-- Big stat cards -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:8px">
+        <div style="background:#2a2a2e;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:14px;color:#f97316;font-weight:700">8</div>
+          <div style="font-size:8px;color:#666">accesi</div>
+        </div>
+        <div style="background:#2a2a2e;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:14px;color:#60a5fa;font-weight:700">21°</div>
+          <div style="font-size:8px;color:#666">media</div>
+        </div>
+        <div style="background:#2a2a2e;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:14px;color:#4ade80;font-weight:700">3</div>
+          <div style="font-size:8px;color:#666">stanze</div>
+        </div>
+      </div>
+      <!-- Recent activity -->
+      <div style="font-size:8px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Attività recente</div>
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <div style="background:#2a2a2e;border-radius:6px;padding:5px 8px;display:flex;justify-content:space-between">
+          <span style="font-size:9px;color:#aaa">💡 Soffitto soggiorno ON</span>
+          <span style="font-size:8px;color:#555">2m fa</span>
+        </div>
+        <div style="background:#2a2a2e;border-radius:6px;padding:5px 8px;display:flex;justify-content:space-between">
+          <span style="font-size:9px;color:#aaa">🎬 Movie Night avviato</span>
+          <span style="font-size:8px;color:#555">18m fa</span>
+        </div>
+        <div style="background:#2a2a2e;border-radius:6px;padding:5px 8px;display:flex;justify-content:space-between">
+          <span style="font-size:9px;color:#aaa">🏠 Sistema → Casa</span>
+          <span style="font-size:8px;color:#555">1h fa</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Stats + Activity</h3>
+      <p>Stat counters (active devices, avg temp, rooms occupied), then recent event log. Great for monitoring but requires more backend work.</p>
+    </div>
+  </div>
+
+</div>

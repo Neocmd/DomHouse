@@ -17,4 +17,4 @@ COPY --from=builder /app/packages/ui/.next/static ./packages/ui/.next/static
 EXPOSE 4000
 ENV PORT=4000
 ENV HOSTNAME=0.0.0.0
-CMD ["node", "server.js"]
+CMD ["node", "packages/ui/server.js"]
