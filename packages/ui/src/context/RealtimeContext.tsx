@@ -34,6 +34,10 @@ export function RealtimeProvider({ children }: { children: React.ReactNode }) {
       setSystemState(msg.data.systemState as SystemState)
       setConnected(true)
     } else if (msg.type === 'state_change') {
+      if (msg.data.type === 'system') {
+        setSystemState(msg.data.currentState as SystemState)
+        return
+      }
       setDevices((prev) =>
         prev.map((d) =>
           d.id === msg.data.id

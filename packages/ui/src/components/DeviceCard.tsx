@@ -16,90 +16,125 @@ const ICONS: Record<string, React.ElementType> = {
   switch: Zap,
 }
 
+const LIVE_TYPES = new Set(['sensor', 'presence', 'climate'])
+
 interface Props {
   device: Device
-  onUpdate: () => void
+  onUpdate?: () => void
 }
 
 export function DeviceCard({ device, onUpdate }: Props) {
   const Icon = ICONS[device.type] ?? Zap
-  const isOn = device.snapshot?.state === 'on'
-  const isUnreachable = device.snapshot?.state === 'unreachable'
+  const state = device.snapshot?.state
+  const isOn = state === 'on'
+  const isUnreachable = state === 'unreachable'
+  const isError = state === 'error'
+  const isLive = LIVE_TYPES.has(device.type)
+  const canToggle = !isLive && !isUnreachable && !isError
 
   const toggle = async () => {
+    if (!canToggle) return
     await sendCommand(device.id, { on: !isOn })
-    onUpdate()
+    onUpdate?.()
   }
+
+  const payload = device.snapshot?.payload ?? {}
+  const brightness = typeof payload['brightness'] === 'number' ? payload['brightness'] : undefined
+  const position   = typeof payload['position']   === 'number' ? payload['position']   : undefined
+  const temp       = typeof payload['temperature']=== 'number' ? payload['temperature']: undefined
+  const hum        = typeof payload['humidity']   === 'number' ? payload['humidity']   : undefined
+  const motion     = payload['motion']
 
   return (
     <div
+      role={canToggle ? 'button' : undefined}
+      tabIndex={canToggle ? 0 : undefined}
+      onClick={canToggle ? toggle : undefined}
+      onKeyDown={canToggle ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle() } } : undefined}
       className={cn(
-        'relative rounded-2xl border p-4 transition-all duration-200 cursor-pointer select-none',
-        isOn
-          ? 'border-orange-300 bg-orange-50 shadow-sm shadow-orange-100'
-          : 'border-stone-200 bg-white hover:border-stone-300',
-        isUnreachable && 'opacity-40 cursor-not-allowed',
+        'relative rounded-2xl border p-3 transition-all select-none',
+        isOn && 'border-orange-500/30 bg-[#1c1c1e]',
+        !isOn && !isUnreachable && !isError && 'border-[#1f1f1f] bg-[#161616]',
+        isUnreachable && 'border-[#1f1f1f] bg-[#161616] opacity-40',
+        isError && 'border-red-900/40 bg-[#1c1616]',
+        isLive && state === 'on' && device.type === 'sensor'   && 'border-blue-900/40',
+        isLive && state === 'on' && device.type === 'presence' && 'border-green-900/40',
+        canToggle && 'cursor-pointer hover:border-orange-500/50',
       )}
-      onClick={isUnreachable ? undefined : toggle}
     >
-      <div className="flex items-start justify-between mb-3">
-        <div
-          className={cn(
-            'w-9 h-9 rounded-xl flex items-center justify-center',
-            isOn ? 'bg-orange-100 text-orange-600' : 'bg-stone-100 text-stone-500',
-          )}
-        >
-          <Icon size={18} />
+      <div className="mb-2 flex items-start justify-between">
+        <div className={cn('flex h-9 w-9 items-center justify-center rounded-lg', isOn ? 'text-orange-400' : 'text-stone-500')}>
+          <Icon size={20} />
         </div>
-        <div
-          className={cn(
-            'w-2 h-2 rounded-full mt-1',
-            isOn ? 'bg-orange-400' : isUnreachable ? 'bg-red-400' : 'bg-stone-300',
-          )}
-        />
+        {isLive ? (
+          <LiveBadge type={device.type} />
+        ) : device.type === 'blind' ? (
+          <span className="text-xs text-stone-400">{position !== undefined ? `${position}%` : '—'}</span>
+        ) : (
+          <Toggle on={isOn} disabled={!canToggle} />
+        )}
       </div>
 
-      <p className="text-sm font-semibold text-stone-800 leading-tight">{device.name}</p>
-      <p className="text-xs text-stone-400 mt-0.5 capitalize">{device.room}</p>
+      <p className={cn('text-sm font-semibold leading-tight', isOn ? 'text-white' : 'text-stone-400')}>
+        {device.name}
+      </p>
 
-      {device.snapshot?.payload && <PayloadBadge payload={device.snapshot.payload} type={device.type} />}
+      <p className={cn(
+        'mt-1 text-xs',
+        isError       ? 'text-red-400'
+        : isUnreachable ? 'text-stone-600'
+        : device.type === 'sensor'   ? 'text-blue-400'
+        : device.type === 'presence' ? 'text-green-400'
+        : isOn        ? 'text-orange-400'
+        : 'text-stone-600',
+      )}>
+        {isError       ? 'Errore'
+        : isUnreachable ? 'Non raggiungibile'
+        : temp !== undefined ? `${temp.toFixed(1)}°C${hum !== undefined ? ` · ${hum.toFixed(0)}%` : ''}`
+        : motion !== undefined ? (motion ? 'Movimento rilevato' : 'Nessun movimento')
+        : isOn && brightness !== undefined ? `ON · ${brightness}%`
+        : isOn ? 'ON'
+        : 'OFF'}
+      </p>
+
+      {device.type === 'blind' && position !== undefined && (
+        <div className="mt-2 h-1 rounded-full bg-[#2a2a2e]">
+          <div className="h-1 rounded-full bg-orange-500" style={{ width: `${position}%` }} />
+        </div>
+      )}
     </div>
   )
 }
 
-function PayloadBadge({ payload, type }: { payload: Record<string, unknown>; type: string }) {
-  if (type === 'sensor' || type === 'presence') {
-    const temp = typeof payload['temperature'] === 'number' ? payload['temperature'] : undefined
-    const hum = typeof payload['humidity'] === 'number' ? payload['humidity'] : undefined
-    const motion = payload['motion']
-
-    return (
-      <div className="mt-2 flex flex-wrap gap-1">
-        {temp !== undefined && (
-          <span className="text-xs bg-blue-50 text-blue-600 rounded-md px-1.5 py-0.5">{temp.toFixed(1)}°C</span>
+function Toggle({ on, disabled }: { on: boolean; disabled: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        'relative inline-block h-[18px] w-[30px] rounded-full transition-colors',
+        on ? 'bg-orange-500' : 'bg-[#2a2a2e]',
+        disabled && 'opacity-50',
+      )}
+    >
+      <span
+        className={cn(
+          'absolute top-[3px] h-3 w-3 rounded-full bg-white transition-all',
+          on ? 'right-[3px]' : 'left-[3px] bg-stone-500',
         )}
-        {hum !== undefined && (
-          <span className="text-xs bg-cyan-50 text-cyan-600 rounded-md px-1.5 py-0.5">{hum.toFixed(0)}%</span>
-        )}
-        {motion !== undefined && (
-          <span className={cn('text-xs rounded-md px-1.5 py-0.5', motion ? 'bg-amber-50 text-amber-600' : 'bg-stone-50 text-stone-400')}>
-            {motion ? 'Movimento' : 'Quiete'}
-          </span>
-        )}
-      </div>
-    )
-  }
+      />
+    </span>
+  )
+}
 
-  if (type === 'light') {
-    const bri = typeof payload['brightness'] === 'number' ? payload['brightness'] : undefined
-    if (bri !== undefined) {
-      return (
-        <div className="mt-2">
-          <span className="text-xs text-stone-400">{bri}%</span>
-        </div>
-      )
-    }
-  }
-
-  return null
+function LiveBadge({ type }: { type: string }) {
+  const color = type === 'presence'
+    ? 'bg-green-900/40 text-green-400'
+    : type === 'climate'
+      ? 'bg-orange-900/40 text-orange-300'
+      : 'bg-blue-900/40 text-blue-400'
+  return (
+    <span className={cn('rounded-full px-2 py-0.5 text-[9px] font-semibold tracking-wider', color)}>
+      LIVE
+    </span>
+  )
 }

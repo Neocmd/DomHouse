@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { RealtimeProvider } from '@/context/RealtimeContext'
+import { AppShell } from '@/components/AppShell'
 
 export const metadata: Metadata = {
   title: 'DomHouse',
@@ -10,8 +12,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="it">
-      <body className="bg-stone-50 text-stone-900 min-h-screen font-sans antialiased">
-        {children}
+      <body className="min-h-screen bg-[#111] text-white font-sans antialiased">
+        <RealtimeProvider>
+          <AppShell>{children}</AppShell>
+        </RealtimeProvider>
       </body>
     </html>
   )
