@@ -1,17 +1,19 @@
 services:
-  mosquitto:
-    image: eclipse-mosquitto:2.0
-    container_name: domhouse-mosquitto
-    restart: unless-stopped
-    ports:
-      - "1883:1883"
-      - "9001:9001"
-    volumes:
-      - ./infra/mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
-      - ./infra/mosquitto/data:/mosquitto/data
-      - ./infra/mosquitto/log:/mosquitto/log
-    networks:
-      - domhouse
+  # Mosquitto disabled — broker already runs as Windows service on host:1883
+  # To use Docker broker instead: uncomment this block and set MQTT_URL to mqtt://mosquitto:1883
+  # mosquitto:
+  #   image: eclipse-mosquitto:2.0
+  #   container_name: domhouse-mosquitto
+  #   restart: unless-stopped
+  #   ports:
+  #     - "1884:1883"   # use 1884 to avoid conflict with host service
+  #     - "9001:9001"
+  #   volumes:
+  #     - ./infra/mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+  #     - ./infra/mosquitto/data:/mosquitto/data
+  #     - ./infra/mosquitto/log:/mosquitto/log
+  #   networks:
+  #     - domhouse
 
   redis:
     image: redis:7-alpine
@@ -54,19 +56,22 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: production
-      MQTT_URL: mqtt://mosquitto:1883
+      # host.docker.internal → host machine's Mosquitto service (Windows service on port 1883)
+      MQTT_URL: mqtt://host.docker.internal:1883
       REDIS_URL: redis://redis:6379
       INFLUXDB_URL: http://influxdb:8086
       INFLUXDB_TOKEN: domhouse-influx-token
       INFLUXDB_ORG: domhouse
       INFLUXDB_BUCKET: sensors
       API_PORT: 3000
+      CONFIG_DIR: /app/config
     volumes:
       - ./config:/app/config:ro
     depends_on:
-      - mosquitto
       - redis
       - influxdb
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - domhouse
 
