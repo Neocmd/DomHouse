@@ -1,4 +1,4 @@
-import { setup, assign, fromCallback } from 'xstate'
+import { setup, assign } from 'xstate'
 import type { SystemState, RoomState, DeviceState } from '../types.js'
 
 // ── System FSM ─────────────────────────────────────────────
@@ -19,10 +19,10 @@ export const systemMachine = setup({
 }).createMachine({
   id: 'system',
   initial: 'home',
-  context: { state: 'home', changedAt: Date.now() },
+  context: { state: 'home' as SystemState, changedAt: Date.now() },
   states: {
     home: {
-      entry: assign({ state: 'home', changedAt: () => Date.now() }),
+      entry: assign(() => ({ state: 'home' as SystemState, changedAt: Date.now() })),
       on: {
         SET_AWAY: 'away',
         SET_NIGHT: 'night',
@@ -34,7 +34,7 @@ export const systemMachine = setup({
       },
     },
     away: {
-      entry: assign({ state: 'away', changedAt: () => Date.now() }),
+      entry: assign(() => ({ state: 'away' as SystemState, changedAt: Date.now() })),
       on: {
         SET_HOME: 'home',
         SET_VACATION: 'vacation',
@@ -42,7 +42,7 @@ export const systemMachine = setup({
       },
     },
     night: {
-      entry: assign({ state: 'night', changedAt: () => Date.now() }),
+      entry: assign(() => ({ state: 'night' as SystemState, changedAt: Date.now() })),
       on: {
         SET_HOME: 'home',
         SET_AWAY: 'away',
@@ -50,7 +50,7 @@ export const systemMachine = setup({
       },
     },
     vacation: {
-      entry: assign({ state: 'vacation', changedAt: () => Date.now() }),
+      entry: assign(() => ({ state: 'vacation' as SystemState, changedAt: Date.now() })),
       on: {
         SET_HOME: 'home',
         PRESENCE_DETECTED: 'home',
@@ -77,7 +77,7 @@ export const roomMachine = setup({
   id: 'room',
   initial: 'unknown',
   context: ({ input }) => ({
-    state: 'unknown',
+    state: 'unknown' as RoomState,
     room: input.room,
     lastMotion: 0,
   }),
@@ -90,14 +90,14 @@ export const roomMachine = setup({
       },
     },
     occupied: {
-      entry: assign({ state: 'occupied', lastMotion: () => Date.now() }),
+      entry: assign(() => ({ state: 'occupied' as RoomState, lastMotion: Date.now() })),
       on: {
         MOTION_CLEARED: 'empty',
         FORCE_EMPTY: 'empty',
       },
     },
     empty: {
-      entry: assign({ state: 'empty' }),
+      entry: assign(() => ({ state: 'empty' as RoomState })),
       on: {
         MOTION_DETECTED: 'occupied',
         FORCE_OCCUPIED: 'occupied',
@@ -130,9 +130,9 @@ export const deviceMachine = setup({
   id: 'device',
   initial: 'unknown',
   context: ({ input }) => ({
-    state: 'unknown',
+    state: 'unknown' as DeviceState,
     deviceId: input.deviceId,
-    payload: {},
+    payload: {} as Record<string, unknown>,
     lastSeen: 0,
   }),
   states: {
@@ -140,11 +140,11 @@ export const deviceMachine = setup({
       on: {
         STATE_RECEIVED: {
           target: 'online',
-          actions: assign({
-            payload: ({ event }) => event.payload,
-            lastSeen: () => Date.now(),
-            state: ({ event }) => deriveDeviceState(event.payload),
-          }),
+          actions: assign(({ event }) => ({
+            payload: event.payload,
+            lastSeen: Date.now(),
+            state: deriveDeviceState(event.payload),
+          })),
         },
         UNREACHABLE: 'unreachable',
       },
@@ -152,44 +152,44 @@ export const deviceMachine = setup({
     online: {
       on: {
         STATE_RECEIVED: {
-          actions: assign({
-            payload: ({ event }) => event.payload,
-            lastSeen: () => Date.now(),
-            state: ({ event }) => deriveDeviceState(event.payload),
-          }),
+          actions: assign(({ event }) => ({
+            payload: event.payload,
+            lastSeen: Date.now(),
+            state: deriveDeviceState(event.payload),
+          })),
         },
         UNREACHABLE: 'unreachable',
         ERROR: {
           target: 'error',
-          actions: assign({ errorMessage: ({ event }) => event.message }),
+          actions: assign(({ event }) => ({ errorMessage: event.message })),
         },
       },
     },
     unreachable: {
-      entry: assign({ state: 'unreachable' }),
+      entry: assign(() => ({ state: 'unreachable' as DeviceState })),
       on: {
         RECOVERY: 'unknown',
         STATE_RECEIVED: {
           target: 'online',
-          actions: assign({
-            payload: ({ event }) => event.payload,
-            lastSeen: () => Date.now(),
-            state: ({ event }) => deriveDeviceState(event.payload),
-          }),
+          actions: assign(({ event }) => ({
+            payload: event.payload,
+            lastSeen: Date.now(),
+            state: deriveDeviceState(event.payload),
+          })),
         },
       },
     },
     error: {
-      entry: assign({ state: 'error' }),
+      entry: assign(() => ({ state: 'error' as DeviceState })),
       on: {
         RECOVERY: 'unknown',
         STATE_RECEIVED: {
           target: 'online',
-          actions: assign({
-            payload: ({ event }) => event.payload,
-            lastSeen: () => Date.now(),
-            state: () => 'unknown',
-          }),
+          actions: assign(({ event }) => ({
+            payload: event.payload,
+            lastSeen: Date.now(),
+            state: 'unknown' as DeviceState,
+          })),
         },
       },
     },

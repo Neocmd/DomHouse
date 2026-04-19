@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import YAML from 'yaml'
-import CronParser from 'cron-parser'
+import { parseExpression as parseCronExpression } from 'cron-parser'
 import { logger } from '../logger.js'
 import { ConditionEvaluator } from './ConditionEvaluator.js'
 import type { RuleDefinition, Action } from './types.js'
@@ -156,7 +156,7 @@ export class RuleEngine {
     }
 
     try {
-      const interval = CronParser.parseExpression(t.expression)
+      const interval = parseCronExpression(t.expression)
       const scheduleNext = () => {
         const next = interval.next()
         const delay = next.getTime() - Date.now()
