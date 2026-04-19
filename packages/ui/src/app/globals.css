@@ -1,9 +1,21 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-surface-base: #111111;
+  --color-surface-card: #1c1c1e;
+  --color-surface-raised: #2a2a2e;
+  --color-surface-border: #222222;
+  --color-surface-dim: #161616;
+  --color-accent: #f97316;
+  --color-muted: #555555;
+  --color-sensor-temp: #60a5fa;
+  --color-sensor-motion: #4ade80;
+  --color-sensor-error: #f87171;
+}
 
 @layer base {
   body {
-    @apply bg-surface-base text-white;
+    background-color: var(--color-surface-base);
+    color: white;
   }
 }
