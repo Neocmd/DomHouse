@@ -34,7 +34,7 @@ export async function fetchState(): Promise<SystemStateResponse> {
   return res.json()
 }
 
-export async function setSystemState(state: string): Promise<void> {
+export async function setSystemState(state: SystemState): Promise<void> {
   await fetch(`${API_URL}/api/state`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

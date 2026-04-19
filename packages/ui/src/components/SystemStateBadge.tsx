@@ -19,7 +19,7 @@ interface Props {
 }
 
 export function SystemStateBadge({ current, onChange }: Props) {
-  const set = async (state: string) => {
+  const set = async (state: SystemState) => {
     await setSystemState(state)
     onChange()
   }

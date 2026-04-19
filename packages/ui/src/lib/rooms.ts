@@ -18,9 +18,8 @@ export function formatRoomName(roomId: string): string {
 export function groupByRoom(devices: Device[]): Map<string, Device[]> {
   const map = new Map<string, Device[]>()
   for (const device of devices) {
-    const existing = map.get(device.room) ?? []
-    existing.push(device)
-    map.set(device.room, existing)
+    if (!map.has(device.room)) map.set(device.room, [])
+    map.get(device.room)!.push(device)
   }
   return map
 }
@@ -30,12 +29,10 @@ export function roomActiveCount(devices: Device[]): number {
 }
 
 export function roomTemperature(devices: Device[]): number | undefined {
-  const sensor = devices.find(
-    (d) =>
-      d.capabilities.includes('temperature') &&
-      typeof d.snapshot?.payload['temperature'] === 'number',
-  )
-  if (!sensor?.snapshot) return undefined
-  const val = sensor.snapshot.payload['temperature']
-  return typeof val === 'number' ? val : undefined
+  for (const d of devices) {
+    if (!d.capabilities.includes('temperature') || !d.snapshot) continue
+    const val = d.snapshot.payload['temperature']
+    if (typeof val === 'number') return val
+  }
+  return undefined
 }
