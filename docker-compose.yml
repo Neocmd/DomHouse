@@ -46,8 +46,8 @@ services:
 
   agent-core:
     build:
-      context: ./packages/agent-core
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: packages/agent-core/Dockerfile
     container_name: domhouse-agent-core
     restart: unless-stopped
     ports:
@@ -72,8 +72,8 @@ services:
 
   ui:
     build:
-      context: ./packages/ui
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: packages/ui/Dockerfile
     container_name: domhouse-ui
     restart: unless-stopped
     ports:
